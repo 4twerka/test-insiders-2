@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
     requesterId: sessionUser.uid,
     requesterName: sessionUser.name,
     requesterEmail: sessionUser.email,
+    status: "pending",
     createdAt: now(),
   });
 

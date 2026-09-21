@@ -34,7 +34,7 @@ export function TopBar() {
         )}
       </div>
 
-      {status === "authenticated" && user ? (
+      {status === "authenticated" && user && (
         <nav className="mt-3 flex gap-1 overflow-x-auto">
           {NAV_LINKS.filter((link) => !link.adminOnly || user.role === "admin").map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
@@ -53,12 +53,7 @@ export function TopBar() {
             );
           })}
         </nav>
-      ) : status === "unauthenticated" ? (
-        <nav className="mt-3 flex gap-4 text-sm">
-          <Link href="/login">Увійти</Link>
-          <Link href="/register">Реєстрація</Link>
-        </nav>
-      ) : null}
+      )}
     </header>
   );
 }

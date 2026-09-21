@@ -47,30 +47,33 @@ function LoginForm() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-sm flex-col gap-6 rounded-2xl border border-line bg-surface p-8 shadow-sm">
-      <h1 className="text-2xl font-semibold tracking-tight">Вхід</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
-        <div className="flex flex-col gap-1">
+    <div className="mx-auto flex w-full max-w-md flex-col gap-8 rounded-2xl border border-line bg-surface p-10 shadow-sm">
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight">Вхід</h1>
+        <p className="mt-1 text-sm text-foreground/60">Раді бачити вас знову</p>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
+        <div className="flex flex-col gap-1.5">
           <label htmlFor="email" className="text-sm font-medium text-foreground/80">
             Email
           </label>
           <input
             id="email"
             type="email"
-            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
+            className="rounded-lg border border-line bg-background px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("email")}
           />
           {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <label htmlFor="password" className="text-sm font-medium text-foreground/80">
             Пароль
           </label>
           <input
             id="password"
             type="password"
-            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
+            className="rounded-lg border border-line bg-background px-4 py-2.5 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("password")}
           />
           {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
@@ -85,7 +88,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 disabled:opacity-50"
+          className="rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 disabled:opacity-50"
         >
           {isSubmitting ? "Зачекайте..." : "Увійти"}
         </button>

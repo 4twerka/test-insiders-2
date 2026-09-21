@@ -1,3 +1,5 @@
+export type ExchangeRequestStatus = "pending" | "accepted" | "declined";
+
 export type ExchangeRequest = {
   id: string;
   bookId: string;
@@ -6,5 +8,6 @@ export type ExchangeRequest = {
   requesterId: string;
   requesterName: string;
   requesterEmail: string;
+  status: ExchangeRequestStatus;
   createdAt: number;
 };
