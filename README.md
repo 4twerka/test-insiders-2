@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Книгообмін
 
-## Getting Started
+Веб-додаток для обміну книгами: користувачі додають свої книги, шукають чужі та надсилають запити на обмін власнику книги на email.
 
-First, run the development server:
+## Стек
+
+- Next.js (App Router) + TypeScript
+- Tailwind CSS
+- Firebase Authentication + Firestore
+- react-hook-form + zod (форми та валідація)
+- zustand (стан авторизації на клієнті)
+- Resend (надсилання email)
+
+## Функціонал
+
+- Реєстрація / вхід (Firebase Auth, сесія зберігається через httpOnly cookie)
+- `/me/books` — власні книги: додавання (назва, автор, фото за посиланням або файлом з пристрою), перегляд, видалення
+- `/books` — список усіх книг: пошук за назвою/автором, сортування за алфавітом, пагінація на бекенді
+- `/books/:id` — деталі книги, кнопка «Запросити обмін» (надсилає email власнику зі списком книг відправника; недоступна для власної книги)
+- `/admin` — CRUD користувачів, зміна ролей, видалення будь-якої книги (лише для ролі `admin`)
+- `/profile` — редагування імені й аватара, кількість власних книг, отримані запити на обмін
+- `/forgot-password` — відновлення паролю через email (Firebase Auth)
+- Firestore Security Rules: кожен юзер редагує лише свої дані; підвищити собі роль до `admin` неможливо навіть напряму через SDK
+
+## Встановлення
+
+```bash
+npm install
+```
+
+### Firebase
+
+1. Створіть проєкт на [Firebase Console](https://console.firebase.google.com), увімкніть **Authentication** (Email/Password) і **Firestore Database**.
+2. Скопіюйте конфігурацію Web App у `.env.local` (див. `.env.local.example`).
+3. Project Settings → Service Accounts → Generate new private key — покладіть `project_id`, `client_email`, `private_key` у ті ж змінні `FIREBASE_ADMIN_*`.
+4. Опублікуйте правила з `firestore.rules` (Firestore Database → Rules → вставити → Publish).
+
+### Email
+
+Зареєструйтеся на [resend.com](https://resend.com), додайте `RESEND_API_KEY` і `EMAIL_FROM` у `.env.local` (для тестів підходить `onboarding@resend.dev`).
+
+## Запуск
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Ролі
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Нові акаунти отримують роль `user` за замовчуванням. Щоб отримати `admin`, потрібно вручну змінити поле `role` на `"admin"` у документі `users/{uid}` через Firebase Console (або через вже наявного адміністратора в `/admin`) — самостійно підвищити собі роль неможливо, це заборонено правилами Firestore.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Відомі обмеження
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Фото книги/аватар при завантаженні файлом стискається й зберігається як base64 прямо в документі Firestore (без Firebase Storage, який тепер доступний лише на платному плані Blaze) — тому обмежене розміром до ~1 МБ на документ.
