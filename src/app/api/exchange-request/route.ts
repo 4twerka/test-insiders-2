@@ -31,6 +31,20 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const existingRequestSnapshot = await adminDb
+    .collection("exchangeRequests")
+    .where("bookId", "==", book.id)
+    .where("requesterId", "==", sessionUser.uid)
+    .where("status", "==", "pending")
+    .limit(1)
+    .get();
+  if (!existingRequestSnapshot.empty) {
+    return NextResponse.json(
+      { error: "Ви вже надсилали запит на обмін цією книгою" },
+      { status: 409 },
+    );
+  }
+
   const offeredBooksSnapshot = await adminDb
     .collection("books")
     .where("ownerId", "==", sessionUser.uid)
@@ -38,22 +52,6 @@ export async function POST(request: NextRequest) {
   const offeredBooks = offeredBooksSnapshot.docs.map(
     (docSnapshot) => ({ id: docSnapshot.id, ...docSnapshot.data() }) as Book,
   );
-
-  try {
-    await sendExchangeRequestEmail({
-      ownerEmail: book.ownerEmail,
-      ownerName: book.ownerName,
-      requesterName: sessionUser.name,
-      requesterEmail: sessionUser.email,
-      requestedBook: book,
-      offeredBooks,
-    });
-  } catch {
-    return NextResponse.json(
-      { error: "Не вдалося надіслати email. Спробуйте пізніше" },
-      { status: 502 },
-    );
-  }
 
   await adminDb.collection("exchangeRequests").add({
     bookId: book.id,
@@ -65,6 +63,17 @@ export async function POST(request: NextRequest) {
     status: "pending",
     createdAt: now(),
   });
+
+  try {
+    await sendExchangeRequestEmail({
+      ownerEmail: book.ownerEmail,
+      ownerName: book.ownerName,
+      requesterName: sessionUser.name,
+      requesterEmail: sessionUser.email,
+      requestedBook: book,
+      offeredBooks,
+    });
+  } catch {}
 
   return NextResponse.json({ ok: true });
 }

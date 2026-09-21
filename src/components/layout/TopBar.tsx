@@ -21,7 +21,7 @@ export function TopBar() {
     <header className="border-b border-line bg-surface px-4 py-3 md:hidden">
       <div className="flex items-center justify-between gap-3">
         <Link href="/books" className="text-base font-semibold tracking-tight">
-          Книгообмін
+          Books
         </Link>
         {status === "authenticated" && user && (
           <button

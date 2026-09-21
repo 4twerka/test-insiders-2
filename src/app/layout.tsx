@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthListener } from "@/components/auth/AuthListener";
 import { AppShell } from "@/components/layout/AppShell";
+import { ExchangeRequestNotifications } from "@/components/notifications/ExchangeRequestNotifications";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Книгообмін",
+  title: "Books",
   description: "Сервіс обміну книгами",
 };
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="bg-background text-foreground" suppressHydrationWarning>
         <AuthListener />
+        <ExchangeRequestNotifications />
         <AppShell>{children}</AppShell>
       </body>
     </html>

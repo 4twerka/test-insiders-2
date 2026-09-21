@@ -25,7 +25,7 @@ export function Sidebar() {
   return (
     <aside className="hidden w-64 shrink-0 flex-col bg-sidebar px-4 py-6 text-sidebar-foreground md:flex">
       <Link href="/books" className="px-2 text-lg font-semibold tracking-tight text-white">
-        Книгообмін
+        Books
       </Link>
 
       <nav className="mt-8 flex flex-1 flex-col gap-1">

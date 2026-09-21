@@ -5,17 +5,6 @@ import { adminAuth, adminDb } from "@/lib/firebase/admin";
 import { now } from "@/lib/time";
 import { adminCreateUserSchema } from "@/lib/validation/schemas";
 
-export async function GET() {
-  const admin = await requireAdmin();
-  if (!admin) {
-    return NextResponse.json({ error: "Доступ заборонено" }, { status: 403 });
-  }
-
-  const snapshot = await adminDb.collection("users").orderBy("createdAt", "asc").get();
-  const users = snapshot.docs.map((docSnapshot) => docSnapshot.data());
-  return NextResponse.json({ users });
-}
-
 export async function POST(request: NextRequest) {
   const admin = await requireAdmin();
   if (!admin) {

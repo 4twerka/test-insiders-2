@@ -77,9 +77,7 @@ export async function PATCH(
       ownerEmail: sessionUser.email,
       status,
     });
-  } catch {
-    // Рішення вже збережено — недоставлений лист не повинен його скасовувати.
-  }
+  } catch {}
 
   return NextResponse.json({ ok: true });
 }

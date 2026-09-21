@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/store/useAuthStore";
 import type { Book } from "@/types/book";
@@ -19,6 +19,7 @@ export function ExchangeRequestButton({ book }: ExchangeRequestButtonProps) {
   const status = useAuthStore((state) => state.status);
   const [isSending, setIsSending] = useState(false);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
+  const isSendingRef = useRef(false);
 
   if (status === "loading") return null;
 
@@ -36,6 +37,8 @@ export function ExchangeRequestButton({ book }: ExchangeRequestButtonProps) {
   if (user.uid === book.ownerId) return null;
 
   const handleClick = async () => {
+    if (isSendingRef.current) return;
+    isSendingRef.current = true;
     setIsSending(true);
     setFeedback(null);
     try {
@@ -53,6 +56,7 @@ export function ExchangeRequestButton({ book }: ExchangeRequestButtonProps) {
     } catch {
       setFeedback({ type: "error", text: "Не вдалося надіслати запит" });
     } finally {
+      isSendingRef.current = false;
       setIsSending(false);
     }
   };
