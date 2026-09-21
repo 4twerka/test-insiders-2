@@ -39,25 +39,31 @@ export async function POST(request: NextRequest) {
     (docSnapshot) => ({ id: docSnapshot.id, ...docSnapshot.data() }) as Book,
   );
 
-  await Promise.all([
-    sendExchangeRequestEmail({
+  try {
+    await sendExchangeRequestEmail({
       ownerEmail: book.ownerEmail,
       ownerName: book.ownerName,
       requesterName: sessionUser.name,
       requesterEmail: sessionUser.email,
       requestedBook: book,
       offeredBooks,
-    }),
-    adminDb.collection("exchangeRequests").add({
-      bookId: book.id,
-      bookName: book.name,
-      bookOwnerId: book.ownerId,
-      requesterId: sessionUser.uid,
-      requesterName: sessionUser.name,
-      requesterEmail: sessionUser.email,
-      createdAt: now(),
-    }),
-  ]);
+    });
+  } catch {
+    return NextResponse.json(
+      { error: "Не вдалося надіслати email. Спробуйте пізніше" },
+      { status: 502 },
+    );
+  }
+
+  await adminDb.collection("exchangeRequests").add({
+    bookId: book.id,
+    bookName: book.name,
+    bookOwnerId: book.ownerId,
+    requesterId: sessionUser.uid,
+    requesterName: sessionUser.name,
+    requesterEmail: sessionUser.email,
+    createdAt: now(),
+  });
 
   return NextResponse.json({ ok: true });
 }

@@ -29,6 +29,7 @@ export const forgotPasswordSchema = z.object({
 
 export const profileSchema = z.object({
   name: z.string().min(2, "Ім'я має містити щонайменше 2 символи"),
+  email: z.email("Некоректна email адреса"),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

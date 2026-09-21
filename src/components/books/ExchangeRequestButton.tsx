@@ -24,8 +24,8 @@ export function ExchangeRequestButton({ book }: ExchangeRequestButtonProps) {
 
   if (!user) {
     return (
-      <p className="text-sm text-black/60 dark:text-white/60">
-        <Link href="/login" className="underline">
+      <p className="text-sm text-foreground/60">
+        <Link href="/login" className="text-accent underline">
           Увійдіть
         </Link>
         , щоб запросити обмін.
@@ -63,7 +63,7 @@ export function ExchangeRequestButton({ book }: ExchangeRequestButtonProps) {
         type="button"
         onClick={handleClick}
         disabled={isSending}
-        className="self-start rounded-md bg-black px-4 py-2 text-sm text-white disabled:opacity-50 dark:bg-white dark:text-black"
+        className="self-start rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 disabled:opacity-50"
       >
         {isSending ? "Надсилаємо..." : "Запросити обмін"}
       </button>

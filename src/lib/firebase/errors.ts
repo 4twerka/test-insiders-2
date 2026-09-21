@@ -4,6 +4,7 @@ const MESSAGES: Record<string, string> = {
   "auth/invalid-email": "Некоректна email адреса",
   "auth/weak-password": "Пароль занадто простий",
   "auth/too-many-requests": "Забагато спроб. Спробуйте пізніше",
+  "auth/requires-recent-login": "Для зміни email увійдіть в акаунт повторно і спробуйте ще раз",
 };
 
 export function getAuthErrorMessage(error: unknown): string {

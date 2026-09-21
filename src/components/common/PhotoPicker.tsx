@@ -34,26 +34,27 @@ export function PhotoPicker({ value, onChange, onError, label = "Фото" }: Ph
 
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium">{label}</span>
-      <div className="flex gap-4 text-sm">
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="photoMode"
-            checked={mode === "url"}
-            onChange={() => setMode("url")}
-          />
+      <span className="text-sm font-medium text-foreground/80">{label}</span>
+
+      <div className="inline-flex w-fit rounded-lg border border-line bg-surface-muted p-0.5 text-sm">
+        <button
+          type="button"
+          onClick={() => setMode("url")}
+          className={`rounded-md px-3 py-1.5 transition-colors ${
+            mode === "url" ? "bg-surface font-medium shadow-sm" : "text-foreground/60"
+          }`}
+        >
           Посилання
-        </label>
-        <label className="flex items-center gap-1">
-          <input
-            type="radio"
-            name="photoMode"
-            checked={mode === "file"}
-            onChange={() => setMode("file")}
-          />
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode("file")}
+          className={`rounded-md px-3 py-1.5 transition-colors ${
+            mode === "file" ? "bg-surface font-medium shadow-sm" : "text-foreground/60"
+          }`}
+        >
           Файл
-        </label>
+        </button>
       </div>
 
       {mode === "url" ? (
@@ -62,10 +63,15 @@ export function PhotoPicker({ value, onChange, onError, label = "Фото" }: Ph
           placeholder="https://..."
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+          className="rounded-lg border border-line bg-surface px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
         />
       ) : (
-        <input type="file" accept="image/*" onChange={handleFileChange} className="text-sm" />
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="text-sm text-foreground/70 file:mr-3 file:rounded-lg file:border-0 file:bg-accent file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-accent-foreground file:transition-colors hover:file:bg-accent/90"
+        />
       )}
     </div>
   );

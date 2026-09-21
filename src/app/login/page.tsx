@@ -47,36 +47,36 @@ function LoginForm() {
   };
 
   return (
-    <div className="mx-auto flex max-w-sm flex-col gap-6">
-      <h1 className="text-2xl font-semibold">Вхід</h1>
+    <div className="mx-auto flex w-full max-w-sm flex-col gap-6 rounded-2xl border border-line bg-surface p-8 shadow-sm">
+      <h1 className="text-2xl font-semibold tracking-tight">Вхід</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
         <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className="text-sm font-medium text-foreground/80">
             Email
           </label>
           <input
             id="email"
             type="email"
-            className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("email")}
           />
           {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-sm font-medium">
+          <label htmlFor="password" className="text-sm font-medium text-foreground/80">
             Пароль
           </label>
           <input
             id="password"
             type="password"
-            className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("password")}
           />
           {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
         </div>
 
-        <Link href="/forgot-password" className="self-start text-sm underline">
+        <Link href="/forgot-password" className="self-start text-sm text-accent hover:underline">
           Забули пароль?
         </Link>
 
@@ -85,15 +85,15 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-md bg-black px-4 py-2 text-white disabled:opacity-50 dark:bg-white dark:text-black"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 disabled:opacity-50"
         >
           {isSubmitting ? "Зачекайте..." : "Увійти"}
         </button>
       </form>
 
-      <p className="text-sm">
+      <p className="text-sm text-foreground/70">
         Немає акаунта?{" "}
-        <Link href="/register" className="underline">
+        <Link href="/register" className="font-medium text-accent hover:underline">
           Зареєструватися
         </Link>
       </p>

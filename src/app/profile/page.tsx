@@ -22,29 +22,32 @@ export default async function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-2xl font-semibold">Профіль</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">Профіль</h1>
       <ProfileForm />
 
-      <div className="flex flex-col gap-1">
-        <h2 className="text-lg font-medium">Кількість книг</h2>
-        <p className="text-black/60 dark:text-white/60">{booksCountSnapshot.data().count}</p>
+      <div className="flex flex-col gap-1 rounded-2xl border border-line bg-surface p-6 shadow-sm">
+        <h2 className="text-lg font-medium tracking-tight">Кількість книг</h2>
+        <p className="text-2xl font-semibold text-accent">{booksCountSnapshot.data().count}</p>
       </div>
 
       <div className="flex flex-col gap-3">
-        <h2 className="text-lg font-medium">Запити на обмін</h2>
+        <h2 className="text-lg font-medium tracking-tight">Запити на обмін</h2>
         {requests.length === 0 ? (
-          <p className="text-sm text-black/60 dark:text-white/60">Поки що немає запитів.</p>
+          <p className="text-sm text-foreground/60">Поки що немає запитів.</p>
         ) : (
           <ul className="flex flex-col gap-2">
             {requests.map((request) => (
               <li
                 key={request.id}
-                className="rounded-lg border border-black/10 p-3 text-sm dark:border-white/10"
+                className="rounded-xl border border-line bg-surface p-4 text-sm shadow-sm"
               >
-                <Link href={`/books/${request.bookId}`} className="font-medium hover:underline">
+                <Link
+                  href={`/books/${request.bookId}`}
+                  className="font-medium hover:text-accent hover:underline"
+                >
                   {request.bookName}
                 </Link>
-                <p className="text-black/60 dark:text-white/60">
+                <p className="mt-0.5 text-foreground/60">
                   {request.requesterName} ({request.requesterEmail}) хоче обмінятися книгою
                 </p>
               </li>

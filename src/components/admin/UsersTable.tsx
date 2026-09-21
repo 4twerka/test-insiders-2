@@ -63,55 +63,55 @@ export function UsersTable({ initialUsers, currentUid }: UsersTableProps) {
     <div className="flex flex-col gap-8">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 rounded-lg border border-black/10 p-4 dark:border-white/10 sm:flex-row sm:flex-wrap sm:items-end"
+        className="flex flex-col gap-4 rounded-2xl border border-line bg-surface p-6 shadow-sm sm:flex-row sm:flex-wrap sm:items-end"
         noValidate
       >
         <div className="flex flex-col gap-1">
-          <label htmlFor="name" className="text-sm font-medium">
+          <label htmlFor="name" className="text-sm font-medium text-foreground/80">
             Ім&apos;я
           </label>
           <input
             id="name"
             type="text"
-            className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("name")}
           />
           {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className="text-sm font-medium text-foreground/80">
             Email
           </label>
           <input
             id="email"
             type="email"
-            className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("email")}
           />
           {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="password" className="text-sm font-medium">
+          <label htmlFor="password" className="text-sm font-medium text-foreground/80">
             Пароль
           </label>
           <input
             id="password"
             type="password"
-            className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("password")}
           />
           {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
         </div>
 
         <div className="flex flex-col gap-1">
-          <label htmlFor="role" className="text-sm font-medium">
+          <label htmlFor="role" className="text-sm font-medium text-foreground/80">
             Роль
           </label>
           <select
             id="role"
-            className="rounded-md border border-black/15 px-3 py-2 dark:border-white/20"
+            className="rounded-lg border border-line bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
             {...register("role")}
           >
             <option value="user">User</option>
@@ -122,7 +122,7 @@ export function UsersTable({ initialUsers, currentUid }: UsersTableProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="rounded-md bg-black px-4 py-2 text-sm text-white disabled:opacity-50 dark:bg-white dark:text-black"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground shadow-sm transition-colors hover:bg-accent/90 disabled:opacity-50"
         >
           {isSubmitting ? "Додаємо..." : "Додати користувача"}
         </button>
@@ -130,38 +130,38 @@ export function UsersTable({ initialUsers, currentUid }: UsersTableProps) {
         {formError && <p className="text-sm text-red-600">{formError}</p>}
       </form>
 
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-2xl border border-line bg-surface shadow-sm">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-black/10 dark:border-white/10">
-              <th className="py-2 pr-4">Ім&apos;я</th>
-              <th className="py-2 pr-4">Email</th>
-              <th className="py-2 pr-4">Роль</th>
-              <th className="py-2 pr-4" />
+            <tr className="border-b border-line bg-surface-muted text-foreground/60">
+              <th className="px-4 py-3 font-medium">Ім&apos;я</th>
+              <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">Роль</th>
+              <th className="px-4 py-3" />
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.uid} className="border-b border-black/5 dark:border-white/5">
-                <td className="py-2 pr-4">{user.name}</td>
-                <td className="py-2 pr-4">{user.email}</td>
-                <td className="py-2 pr-4">
+              <tr key={user.uid} className="border-b border-line last:border-0 hover:bg-surface-muted/60">
+                <td className="px-4 py-3">{user.name}</td>
+                <td className="px-4 py-3 text-foreground/70">{user.email}</td>
+                <td className="px-4 py-3">
                   <select
                     value={user.role}
                     onChange={(event) => changeRole(user.uid, event.target.value as UserRole)}
                     disabled={user.uid === currentUid}
-                    className="rounded-md border border-black/15 px-2 py-1 disabled:opacity-40 dark:border-white/20"
+                    className="rounded-lg border border-line bg-background px-2 py-1 text-sm outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:opacity-40"
                   >
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
                   </select>
                 </td>
-                <td className="py-2 pr-4">
+                <td className="px-4 py-3">
                   <button
                     type="button"
                     onClick={() => deleteUser(user.uid)}
                     disabled={user.uid === currentUid}
-                    className="text-red-600 hover:underline disabled:opacity-40"
+                    className="font-medium text-red-600 hover:underline disabled:opacity-40"
                   >
                     Видалити
                   </button>
